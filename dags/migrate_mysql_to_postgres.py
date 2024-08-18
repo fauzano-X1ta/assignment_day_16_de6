@@ -26,13 +26,12 @@ def migrate_mysql_to_postgres():
         from airflow.providers.postgres.hooks.postgres import PostgresHook
 
         postgres_hook = PostgresHook("postgres_dibimbing").get_sqlalchemy_engine()
-        df = pd.DataFrame(records)  # Convert list of dictionaries back to DataFrame
+        df = pd.DataFrame(records) 
 
         with postgres_hook.connect() as conn:
             df.to_sql(name=table_name, con=conn, if_exists='replace', index=False)
 
-    # Define the list of tables to be migrated
-    tables = ["clients", "departments", "employees"]  # Replace with actual table names
+    tables = ["clients", "departments", "employees", "invoices", "projects"]  
 
     for table in tables:
         data = extract_from_mysql(table)
